@@ -191,7 +191,7 @@ namespace TagLib.Ogg
 		/// <exception cref="ArgumentNullException">
 		///    <paramref name="key" /> is <see langword="null" />.
 		/// </exception>
-		public void SetField (string key, uint number, string format = "0")
+		public void SetField (string key, uint number, string format = "00")
 		{
 			if (key == null)
 				throw new ArgumentNullException (nameof (key));
@@ -954,8 +954,9 @@ namespace TagLib.Ogg
 				return 0;
 			}
 			set {
-				SetField ("TRACKTOTAL", TrackCount);
-				SetField ("TRACKNUMBER", value, "00");
+				var fmt = TrackCount > 99 ? "000" : "00";
+				SetField ("TRACKTOTAL", TrackCount, fmt);
+				SetField ("TRACKNUMBER", value, fmt);
 			}
 		}
 
@@ -990,7 +991,7 @@ namespace TagLib.Ogg
 
 				return 0;
 			}
-			set { SetField ("TRACKTOTAL", value); }
+			set { SetField ("TRACKTOTAL", value,"00"); }
 		}
 
 		/// <summary>

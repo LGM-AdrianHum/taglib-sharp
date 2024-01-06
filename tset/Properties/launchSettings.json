@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "tset": {
+      "commandName": "Project",
+      "commandLineArgs": "\"z:\\audiobook\\10 Years of Science Fiction Excellence! Nebula Best Novel Nominees 2014-2023 - 62 Audiobooks (MP3s) SHORT PATH jZQ\\C.l. Polk - The Midnight Bargain (2021)\" -f --setauthor \"C l Polk\""
+    }
+  }
+}

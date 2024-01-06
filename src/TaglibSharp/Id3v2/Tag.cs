@@ -518,8 +518,9 @@ namespace TagLib.Id3v2
 		/// <exception cref="ArgumentException">
 		///    <paramref name="ident" /> is not exactly four bytes long.
 		/// </exception>
-		public void SetNumberFrame (ByteVector ident, uint number, uint count, string format = "0")
+		public void SetNumberFrame (ByteVector ident, uint number, uint count, string format = "00")
 		{
+			if (count > 99) format = "000";
 			if (ident == null)
 				throw new ArgumentNullException (nameof (ident));
 
@@ -530,7 +531,7 @@ namespace TagLib.Id3v2
 				RemoveFrames (ident);
 			} else if (count != 0) {
 				SetTextFrame (ident, string.Format (
-					CultureInfo.InvariantCulture, "{0:" + format + "}/{1}",
+					CultureInfo.InvariantCulture, "{0:" + format + "}/{1:" + format + "}",
 					number, count));
 			} else {
 				SetTextFrame (ident, number.ToString (format, CultureInfo.InvariantCulture));
@@ -995,7 +996,7 @@ namespace TagLib.Id3v2
 				RemoveFrames (FrameType.TDAT);
 			}
 
-			tdrc.Text = new [] { tdrc_text.ToString () };
+			tdrc.Text = new[] { tdrc_text.ToString () };
 		}
 
 		#endregion
@@ -1048,7 +1049,7 @@ namespace TagLib.Id3v2
 			if (text == null)
 				return 0;
 
-			string[] values = text.Split (new [] { '/' },
+			string[] values = text.Split (new[] { '/' },
 				index + 2);
 
 			if (values.Length < index + 1)
@@ -1687,7 +1688,10 @@ namespace TagLib.Id3v2
 		/// </remarks>
 		public override uint Track {
 			get { return GetTextAsUInt32 (FrameType.TRCK, 0); }
-			set { SetNumberFrame (FrameType.TRCK, value, TrackCount, "00"); }
+			set {
+				var fmt = TrackCount > 99 ? "000" : "00";
+				SetNumberFrame (FrameType.TRCK, value, Track, fmt);
+			}
 		}
 
 		/// <summary>
@@ -1705,7 +1709,10 @@ namespace TagLib.Id3v2
 		/// </remarks>
 		public override uint TrackCount {
 			get { return GetTextAsUInt32 (FrameType.TRCK, 1); }
-			set { SetNumberFrame (FrameType.TRCK, Track, value, "00"); }
+			set {
+				var fmt = TrackCount > 99 ? "000" : "00";
+				SetNumberFrame (FrameType.TRCK, TrackCount, value, fmt);
+			}
 		}
 
 		/// <summary>

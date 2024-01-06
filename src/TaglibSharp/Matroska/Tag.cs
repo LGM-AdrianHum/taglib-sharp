@@ -231,7 +231,7 @@ namespace TagLib.Matroska
 		/// <param name="subkey">Nested SimpleTag to find (if non null) Tag name</param>
 		/// <param name="value">unsigned integer value to be set</param>
 		/// <param name="format">Format for string convertion to be used (default: null)</param>
-		public void Set (string key, string subkey, uint value, string format = null)
+		public void Set (string key, string subkey, uint value, string format = "00")
 		{
 			if (value == 0) {
 				Remove (key, subkey);
